@@ -1,4 +1,5 @@
 import scipy
+from scipy.stats import entropy
 from scipy.stats._distn_infrastructure import *  # @UnusedWildImport
 from scipy.stats._constants import _XMAX, _XMIN
 from .estimation import FitDistribution, rv_frozen  # @UnusedImport @Reimport

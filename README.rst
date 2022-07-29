@@ -99,6 +99,10 @@ And install the wheel package with::
 
     pip install dist/wafo-X.Y.Z+abcd123-os_platform.whl
 
+    My personal note, or now with:
+        poetry add dist/wafo-X.Y.Z+abcd123-os_platform.whl
+        poetry install)
+
 Getting started
 ===============
 
