@@ -381,13 +381,12 @@ six = "*"
 build_sphinx = ["sphinx (>=1.3.1)"]
 
 [package.source]
-type = "file"
-url = "dist/wafo-0.4.0-cp310-cp310-linux_x86_64.whl"
-
+type = "url"
+url = "https://github.com/FineWind/pywafo/releases/download/v0.1.0/wafo-0.4.0-cp310-cp310-linux_x86_64.whl"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9,<3.12"
-content-hash = "2e2ba03be12089e20e3318af3761185c89ef65d9aa6d82c86c33b1056a6bfb89"
+content-hash = "065ff79416da5f1bb5f640e98861c2b04311fafe7a77a92f8a7554c9b012323f"
 
 [metadata.files]
 algopy = [
@@ -572,6 +571,4 @@ tomli = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 typing-extensions = []
-wafo = [
-    {file = "wafo-0.4.0-cp310-cp310-linux_x86_64.whl", hash = "sha256:bf76710636a45c533dd102b9a3b021d53a228426fa23f8eaf8737d9b377277d1"},
-]
+wafo = []

@@ -9,7 +9,7 @@ python = "^3.9,<3.12"
 scipy = "^1.9.0"
 llvmlite = "^0.39.0"
 numba = "^0.56.0"
-wafo = {path = "dist/wafo-0.4.0-cp310-cp310-linux_x86_64.whl"}
+wafo = {url = "https://github.com/FineWind/pywafo/releases/download/v0.1.0/wafo-0.4.0-cp310-cp310-linux_x86_64.whl"}
 pytest = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
