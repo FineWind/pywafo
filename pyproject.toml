@@ -1,16 +1,14 @@
 [tool.poetry]
 name = "pywafo-finewind"
-version = "0.1.0"
+version = "0.1.1"
 description = "An attempt to get and keep pywafo running with py3.10 and higher."
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9,<3.12"
-scipy = "^1.9.0"
-llvmlite = "^0.39.0"
-numba = "^0.56.0"
-wafo = {url = "https://github.com/FineWind/pywafo/releases/download/v0.1.0/wafo-0.4.0-cp310-cp310-linux_x86_64.whl"}
-pytest = "^7.1.2"
+scipy = "^1.10.1"
+mpmath = "^1.2.1"
+numba = "^0.56.4"
 
 [tool.poetry.dev-dependencies]
 
