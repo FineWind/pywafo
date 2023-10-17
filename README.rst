@@ -89,7 +89,7 @@ Installation
 ============
 
 WAFO contains some Fortran and C extensions that require a properly configured
-compiler and NumPy/f2py.
+compiler and NumPy/f2py.  (sudo apt install gfortran)
 
 Create a binary wheel package and place it in the dist folder as follows::
 
@@ -99,9 +99,14 @@ And install the wheel package with::
 
     pip install dist/wafo-X.Y.Z+abcd123-os_platform.whl
 
-    My personal note, or now with:
+Personal notes from Rolf:
+I like to work with poetry, so:
+To setup for working with this project, I do the following:
+- sudo apt install gfortran
+- poetry lock && poetry install
+- create the binary wheel as discribed above.
+- Now I can install pywafo in any other project with:
         poetry add dist/wafo-X.Y.Z+abcd123-os_platform.whl
-        poetry install)
 
 Getting started
 ===============
