@@ -23,7 +23,7 @@ class TestKdeTools(unittest.TestCase):
                         [0.1430937435034, 5.864465648665, 9.418694957317207,
                          2.9154367000439, 0.6583089504704, 0.0,
                          0.12255097773682266, 0.8774490222631774, 0.0, 0.0])
-        t = np.trapz(c / dx / len(data), x)
+        t = np.trapezoid(c / dx / len(data), x)
         assert_allclose(t, 0.9964226564124143)
 
     @staticmethod
@@ -42,7 +42,7 @@ class TestKdeTools(unittest.TestCase):
                          [0.02063536, 0.31054405, 0.71865964, 0.13486633, 0.],
                          [0., 0., 0., 0., 0.]], 1e-5)
 
-        t = np.trapz(np.trapz(c / (dx**2 * N), x), x)
+        t = np.trapezoid(np.trapezoid(c / (dx**2 * N), x), x)
         assert_allclose(t, 0.9011618785736376)
 
     @staticmethod
@@ -65,7 +65,7 @@ class TestKdeTools(unittest.TestCase):
                           [8.53886762e-02, 3.73415131e-01, 0.0],
                           [4.16196568e-04, 1.62218824e-02, 0.0]]])
 
-        t = np.trapz(np.trapz(np.trapz(c / dx**3 / N, x), x), x)
+        t = np.trapezoid(np.trapezoid(np.trapezoid(c / dx**3 / N, x), x), x)
         assert_allclose(t, 0.5164999727560187)
 
     @staticmethod
@@ -107,7 +107,7 @@ class TestKdeTools(unittest.TestCase):
         assert_allclose(c.sum(), N)
         assert_allclose(c, truth)
 
-        t = np.trapz(np.trapz(np.trapz(np.trapz(c / dx**4 / N, x), x), x), x)
+        t = np.trapezoid(np.trapezoid(np.trapezoid(np.trapezoid(c / dx**4 / N, x), x), x), x)
         assert_allclose(t, 0.4236703654904251)
 
 

@@ -1,6 +1,6 @@
 '''
 '''
-from numpy import trapz, sqrt, linspace  # @UnresolvedImport
+from numpy import trapezoid, sqrt, linspace  # @UnresolvedImport
 
 from wafo.containers import PlotData
 from wafo.misc import tranproc  # , trangood
@@ -70,7 +70,7 @@ class TrCommon(object):
         -------
         t0 : real, scalar
             a measure of departure from the Gaussian model calculated as
-            trapz((xn-g(x))**2., xn) where int. limits is given by X.
+            trapezoid((xn-g(x))**2., xn) where int. limits is given by X.
         """
         if x is None:
             xn = linspace(xnmin, xnmax, n)
@@ -79,7 +79,7 @@ class TrCommon(object):
             xn = (x - self.mean) / self.sigma
 
         yn = (self._dat2gauss(x) - self.ymean) / self.ysigma
-        t0 = trapz((xn - yn) ** 2., xn)
+        t0 = trapezoid((xn - yn) ** 2., xn)
         return t0
 
     def gauss2dat(self, y, *yi):

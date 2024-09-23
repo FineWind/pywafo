@@ -8,7 +8,7 @@ from .models import TrHermite, TrOchi, TrLinear
 from wafo.stats import edf, skew, kurtosis
 from ..interpolate import SmoothSpline, interp1d
 from scipy.special import ndtri as invnorm
-from scipy.integrate import cumtrapz
+from scipy.integrate import cumulative_trapezoid
 import warnings
 import numpy as np
 floatinfo = np.finfo(float)
@@ -258,13 +258,13 @@ class TransformEstimator(object):
         g1 = sigma * uu + mean
 
         if Ner > 0:  # Compute correction factors
-            cor1 = np.trapz(lc2[0:Ner + 1], lc1[0:Ner + 1])
-            cor2 = np.trapz(lc2[-Ner - 1::], lc1[-Ner - 1::])
+            cor1 = np.trapezoid(lc2[0:Ner + 1], lc1[0:Ner + 1])
+            cor2 = np.trapezoid(lc2[-Ner - 1::], lc1[-Ner - 1::])
         else:
             cor1 = 0
             cor2 = 0
 
-        lc22 = np.hstack((0, cumtrapz(lc2, lc1) + cor1))
+        lc22 = np.hstack((0, cumulative_trapezoid(lc2, lc1) + cor1))
 
         if intensity:
             lc22 = (lc22 + 0.5 / ncr) / (lc22[-1] + cor2 + 1. / ncr)

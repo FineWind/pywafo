@@ -5,7 +5,7 @@ from scipy import integrate as intg
 import scipy.special.orthogonal as ort
 from scipy import special as sp
 
-from scipy.integrate import simps, trapz
+# from scipy.integrate import simpson, trapezoid
 from wafo.plotbackend import plotbackend as plt
 from wafo.demos import humps
 from numdifftools.extrapolation import dea3
@@ -1404,7 +1404,7 @@ def qdemo(f, a, b, kmax=9, plot_error=False):
     err_dic = {}
 
     # try various approximations
-    methods = [trapz, simps, boole, chebychev]
+    methods = [trapezoid, simpson, boole, chebychev]
 
     for k in range(kmax):
         n = 2 ** (k + 1) + 1
@@ -1462,7 +1462,7 @@ def main():
     #    y = np.sum(x ** 2 * w)
 
     x = np.linspace(0, np.pi / 2)
-    _q0 = np.trapz(humps(x), x)
+    _q0 = np.trapezoid(humps(x), x)
     [q, err] = romberg(humps, 0, np.pi / 2, 1e-4)
     print(q, err)
 

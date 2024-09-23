@@ -117,7 +117,7 @@ plt.axis([0, 2, 0, 1])
 #!#! Empirical crest height CDF compared to a Transformed Rayleigh approximation
 
 # facr = trraylpdf(fac.x{1},'Ac',grec1);
-# Facr = cumtrapz(facr.x{1},facr.f);
+# Facr = cumulative_trapezoid(facr.x{1},facr.f);
 # hold on
 # plot(facr.x{1},Facr,'.')
 # axis([1.25 2.25 0.95 1])
@@ -209,7 +209,7 @@ ch, Sa2, chtxt = S.characteristic(['Hm0', 'Tm02'])
 #
 # #!#!
 # clf
-# Fac_h = [fac_h.x{1} cumtrapz(fac_h.x{1},fac_h.f)];
+# Fac_h = [fac_h.x{1} cumulative_trapezoid(fac_h.x{1},fac_h.f)];
 # subplot(3,1,1)
 # Fac = plotedf(Ac,Fac_h);
 # hold on
@@ -217,7 +217,7 @@ ch, Sa2, chtxt = S.characteristic(['Hm0', 'Tm02'])
 # axis([1. 2. 0.9 1])
 # title('Ac CDF')
 #
-# Fat_h = [fat_h.x{1} cumtrapz(fat_h.x{1},fat_h.f)];
+# Fat_h = [fat_h.x{1} cumulative_trapezoid(fat_h.x{1},fat_h.f)];
 # subplot(3,1,2)
 # Fat = plotedf(At,Fat_h);
 # hold on
@@ -225,7 +225,7 @@ ch, Sa2, chtxt = S.characteristic(['Hm0', 'Tm02'])
 # axis([1. 2. 0.9 1])
 # title('At CDF')
 #
-# Facat_h = [facat_h.x{1} cumtrapz(facat_h.x{1},facat_h.f)];
+# Facat_h = [facat_h.x{1} cumulative_trapezoid(facat_h.x{1},facat_h.f)];
 # subplot(3,1,3)
 # Facat = plotedf(AcAt,Facat_h);
 # hold on

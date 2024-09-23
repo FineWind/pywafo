@@ -3,7 +3,7 @@ import wafo.transform.models as wtm
 import wafo.objects as wo
 from wafo.spectrum import SpecData1D
 import numpy as np
-from numpy import NAN
+# from numpy import NAN
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 import unittest
 
@@ -157,9 +157,9 @@ class TestSpectrumHs5(unittest.TestCase):
         ch, R, txt = S.characteristic([1, 2, 3])  # fact a vector of integers
         assert_array_almost_equal(ch, [8.59007646,  8.03139757,  5.62484314])
         assert_array_almost_equal(R,
-                                  [[0.03040216,  0.02834263,         NAN],
-                                   [0.02834263,  0.0274645,         NAN],
-                                   [NAN,         NAN,  0.01500249]])
+                                  [[0.03040216,  0.02834263,         np.nan],
+                                   [0.02834263,  0.0274645,         np.nan],
+                                   [np.nan,         np.nan,  0.01500249]])
         assert_array_equal(txt, ['Tm01', 'Tm02', 'Tm24'])
 
         ch, R, txt = S.characteristic('Ss')  # fact a string

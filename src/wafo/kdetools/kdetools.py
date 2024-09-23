@@ -346,7 +346,7 @@ class TKDE(_KDE):
 
     import matplotlib.pyplot as plt
     h1 = plt.plot(x, f) #  1D probability density plot
-    t = np.trapz(f, x)
+    t = np.trapezoid(f, x)
     """
 
     def __init__(self, data, hs=None, kernel=None, alpha=0.0,
@@ -599,7 +599,7 @@ class KDE(_KDE):
     h = f1.plot()
     import matplotlib.pyplot as plt
     h1 = plt.plot(x, f) #  1D probability density plot
-    t = np.trapz(f, x)
+    t = np.trapezoid(f, x)
     """
 
     def __init__(self, data, hs=None, kernel=None, alpha=0.0, xmin=None,
@@ -1140,7 +1140,7 @@ class BKRegression(object):
         plo, pup = self.prb_ci(c_s, prb_s.data, alpha)
 
         prb_s.dataCI = np.vstack((plo, pup)).T
-        prb_s.prediction_error_avg = (np.trapz(pup - plo, x_s) /
+        prb_s.prediction_error_avg = (np.trapezoid(pup - plo, x_s) /
                                       (x_s[-1] - x_s[0]))
 
         if label:

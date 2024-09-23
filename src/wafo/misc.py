@@ -17,7 +17,7 @@ import numpy as np
 from numpy import (sqrt, arctan2, sin, cos, exp, log, log1p,
                    inf, pi, zeros, ones, meshgrid)
 from scipy.special import gammaln, betaln  # pylint: disable=no-name-in-module
-from scipy.integrate import trapz, simps
+from scipy.integrate import simpson
 
 from wafo import _misc_numba
 from wafo.plotbackend import plotbackend as plt
@@ -2888,7 +2888,7 @@ def fourier(data, t=None, period=None, m=None, method='trapz'):
     n = len(t) if n is None else n
     m = n if m is None else m
     period = t[-1] - t[0] if period is None else period
-    intfun = trapz if method.startswith('trapz') else simps
+    intfun = np.trapezoid if method.startswith('trapz') else simpson
 
     # Define the vectors for computing the Fourier coefficients
     t.shape = (1, -1)

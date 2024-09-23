@@ -8,7 +8,7 @@ from numpy import (pi, inf, zeros, ones, where, nonzero,
                    hstack, vstack, interp, ravel, finfo, linspace,
                    arange, array, nan, newaxis, sign)
 from numpy.fft import fft
-from scipy.integrate import simps, trapz
+from scipy.integrate import simpson, trapezoid
 from scipy.special import erf
 from scipy.linalg import toeplitz
 import scipy.interpolate as interpolate
@@ -3103,7 +3103,7 @@ class SpecData1D(PlotData):
                 w = 2. * pi * w
                 S = S / (2. * pi)
         # m0 = self.moment(nr=0)
-        m0 = simps(S, w)
+        m0 = simpson(S, w)
         sa = sqrt(m0)
         # Nw = w.size
 
@@ -3113,12 +3113,12 @@ class SpecData1D(PlotData):
         # skew=6/sqrt(m0)^3*simpson(S.w,
         #            simpson(S.w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.')
 
-        Hspd = trapz(trapz((Hs + Hd) * S[newaxis, :], w) * S, w)
+        Hspd = trapezoid(trapezoid((Hs + Hd) * S[newaxis, :], w) * S, w)
         output = []
         # %approx : Marthinsen, T. and Winterstein, S.R (1992) method
         if method[0] == 'a':
             if 'm' in moments:
-                output.append(2. * trapz(Hdii * S, w))
+                output.append(2. * trapezoid(Hdii * S, w))
             if 'v' in moments:
                 output.append(m0)
             skew = 6. / sa ** 3 * Hspd
@@ -3148,9 +3148,9 @@ class SpecData1D(PlotData):
 ##
 # m02=2*sum(E.^2) % variance of 2'nd order contribution
 ##
-# %Hstd = 16*trapz(S.w,(Hdii.*S1).^2)
-# %Hstd = trapz(S.w,trapz(S.w,((Hs+Hd)+ 2*Hs.*Hd).*S1(:,ones(1,Nw))).*S1.')
-# ma   = 2*trapz(S.w,Hdii.*S1)
+# %Hstd = 16*trapezoid(S.w,(Hdii.*S1).^2)
+# %Hstd = trapezoid(S.w,trapezoid(S.w,((Hs+Hd)+ 2*Hs.*Hd).*S1(:,ones(1,Nw))).*S1.')
+# ma   = 2*trapezoid(S.w,Hdii.*S1)
 # %m02  = Hstd-ma^2% variance of second order part
 # sa   = sqrt(m0+m02)
 # skew = 6/sa^3*Hspd
@@ -3354,14 +3354,14 @@ class SpecData1D(PlotData):
         else:
             vari = 'x'
         S1 = abs(S) ** (j + 1.)
-        m = [simps(S1, x=f)]
+        m = [simpson(S1, x=f)]
         mtxt = 'm%d' % j
         mtext = [mtxt]
         step = mod(even, 2) + 1
         df = f ** step
         for i in range(step, nr + 1, step):
             S1 = S1 * df
-            m.append(simps(S1, x=f))
+            m.append(simpson(S1, x=f))
             mtext.append(mtxt + vari * i)
         return m, mtext
 
@@ -3637,7 +3637,7 @@ class SpecData1D(PlotData):
         eps4 = sqrt(1. - m[2] ** 2. / m[0] / m[4])
         f = self.args
         S = self.data
-        Qp = 2 / m[0] ** 2. * simps(f * S ** 2, x=f)
+        Qp = 2 / m[0] ** 2. * simpson(f * S ** 2, x=f)
         bw = array([alpha, eps2, eps4, Qp])
         return bw[fact]
 
@@ -3784,10 +3784,10 @@ class SpecData1D(PlotData):
 
         # pi = np.pi
         ind = flatnonzero(f > 0)
-        m.append(simps(S1[ind] / f[ind], f[ind]) * 2. * pi)  # = m_1
-        m_10 = simps(S1[ind] ** 2 / f[ind], f[ind]) * \
+        m.append(simpson(S1[ind] / f[ind], f[ind]) * 2. * pi)  # = m_1
+        m_10 = simpson(S1[ind] ** 2 / f[ind], f[ind]) * \
             (2 * pi) ** 2 / T  # = COV(m_1,m0|T=t0)
-        m_11 = simps(S1[ind] ** 2. / f[ind] ** 2, f[ind]) * \
+        m_11 = simpson(S1[ind] ** 2. / f[ind] ** 2, f[ind]) * \
             (2 * pi) ** 3 / T  # = COV(m_1,m_1|T=t0)
 
         # sqrt = np.sqrt
@@ -3807,7 +3807,7 @@ class SpecData1D(PlotData):
         Ss = 2. * pi * Hm0 / g / Tm02 ** 2  # Significant wave steepness
         Sp = 2. * pi * Hm0 / g / Tp ** 2  # Average wave steepness
         # groupiness factor
-        Ka = abs(simps(S1 * exp(1J * f * Tm02), f)) / m[0]
+        Ka = abs(simpson(S1 * exp(1J * f * Tm02), f)) / m[0]
 
         # Quality control parameter
         # critical value is approximately 0.02 for surface displacement records
@@ -3815,12 +3815,12 @@ class SpecData1D(PlotData):
         # part of S.
         Rs = np.sum(
             interp(r_[0.0146, 0.0195, 0.0244] * 2 * pi, f, S1)) / 3. / maxS
-        Tp2 = 2 * pi * simps(S1 ** 4, f) / simps(f * S1 ** 4, f)
+        Tp2 = 2 * pi * simpson(S1 ** 4, f) / simpson(f * S1 ** 4, f)
 
         alpha1 = Tm24 / Tm02  # m(3)/sqrt(m(1)*m(5))
         eps2 = sqrt(Tm01 / Tm12 - 1.)  # sqrt(m(1)*m(3)/m(2)^2-1)
         eps4 = sqrt(1. - alpha1 ** 2)  # sqrt(1-m(3)^2/m(1)/m(5))
-        Qp = 2. / m[0] ** 2 * simps(f * S1 ** 2, f)
+        Qp = 2. / m[0] ** 2 * simpson(f * S1 ** 2, f)
 
         ch = r_[Hm0, Tm01, Tm02, Tm24, Tm_10, Tp, Ss,
                 Sp, Ka, Rs, Tp2, alpha1, eps2, eps4, Qp]
@@ -4202,8 +4202,8 @@ class SpecData2D(PlotData):
         w = ravel(S1.args[0])
         theta = S1.args[1] - S1.phi
         S = S1.data
-        Sw = simps(S, x=theta, axis=0)
-        m = [simps(Sw, x=w)]
+        Sw = simpson(S, x=theta, axis=0)
+        m = [simpson(Sw, x=w)]
         mtext = ['m0']
 
         if nr > 0:
@@ -4217,12 +4217,12 @@ class SpecData2D(PlotData):
 
             if 'x' in vari:
                 ct = np.cos(theta[:, None])
-                Sc = simps(S * ct, x=theta, axis=0)
+                Sc = simpson(S * ct, x=theta, axis=0)
                 vec.append(kx * Sc)
                 mtext.append('mx')
             if 'y' in vari:
                 st = np.sin(theta[:, None])
-                Ss = simps(S * st, x=theta, axis=0)
+                Ss = simpson(S * st, x=theta, axis=0)
                 vec.append(ky * Ss)
                 mtext.append('my')
             if 't' in vari:
@@ -4231,18 +4231,18 @@ class SpecData2D(PlotData):
 
             if nr > 1:
                 if 'x' in vari:
-                    Sc2 = simps(S * ct ** 2, x=theta, axis=0)
+                    Sc2 = simpson(S * ct ** 2, x=theta, axis=0)
                     vec.append(kx ** 2 * Sc2)
                     mtext.append('mxx')
                 if 'y' in vari:
-                    Ss2 = simps(S * st ** 2, x=theta, axis=0)
+                    Ss2 = simpson(S * st ** 2, x=theta, axis=0)
                     vec.append(ky ** 2 * Ss2)
                     mtext.append('myy')
                 if 't' in vari:
                     vec.append(w ** 2 * Sw)
                     mtext.append('mtt')
                 if 'x' in vari and 'y' in vari:
-                    Scs = simps(S * ct * st, x=theta, axis=0)
+                    Scs = simpson(S * ct * st, x=theta, axis=0)
                     vec.append(kx * ky * Scs)
                     mtext.append('mxy')
                 if 'x' in vari and 't' in vari:
@@ -4254,13 +4254,13 @@ class SpecData2D(PlotData):
 
                 if nr > 3:
                     if 'x' in vari:
-                        Sc3 = simps(S * ct ** 3, x=theta, axis=0)
-                        Sc4 = simps(S * ct ** 4, x=theta, axis=0)
+                        Sc3 = simpson(S * ct ** 3, x=theta, axis=0)
+                        Sc4 = simpson(S * ct ** 4, x=theta, axis=0)
                         vec.append(kx ** 4 * Sc4)
                         mtext.append('mxxxx')
                     if 'y' in vari:
-                        Ss3 = simps(S * st ** 3, x=theta, axis=0)
-                        Ss4 = simps(S * st ** 4, x=theta, axis=0)
+                        Ss3 = simpson(S * st ** 3, x=theta, axis=0)
+                        Ss4 = simpson(S * st ** 4, x=theta, axis=0)
                         vec.append(ky ** 4 * Ss4)
                         mtext.append('myyyy')
                     if 't' in vari:
@@ -4268,11 +4268,11 @@ class SpecData2D(PlotData):
                         mtext.append('mtttt')
 
                     if 'x' in vari and 'y' in vari:
-                        Sc2s = simps(S * ct ** 2 * st, x=theta, axis=0)
-                        Sc3s = simps(S * ct ** 3 * st, x=theta, axis=0)
-                        Scs2 = simps(S * ct * st ** 2, x=theta, axis=0)
-                        Scs3 = simps(S * ct * st ** 3, x=theta, axis=0)
-                        Sc2s2 = simps(S * ct ** 2 * st ** 2, x=theta, axis=0)
+                        Sc2s = simpson(S * ct ** 2 * st, x=theta, axis=0)
+                        Sc3s = simpson(S * ct ** 3 * st, x=theta, axis=0)
+                        Scs2 = simpson(S * ct * st ** 2, x=theta, axis=0)
+                        Scs3 = simpson(S * ct * st ** 3, x=theta, axis=0)
+                        Sc2s2 = simpson(S * ct ** 2 * st ** 2, x=theta, axis=0)
                         vec.extend((kx ** 3 * ky * Sc3s,
                                     kx ** 2 * ky ** 2 * Sc2s2,
                                     kx * ky ** 3 * Scs3))
@@ -4291,7 +4291,7 @@ class SpecData2D(PlotData):
                                     kx * ky * w ** 2 * Scs))
                         mtext.extend(('mxxyt', 'mxyyt', 'mxytt'))
             # end % if nr>1
-            m.extend([simps(vals, x=w) for vals in vec])
+            m.extend([simpson(vals, x=w) for vals in vec])
         return np.asarray(m), mtext
 
     def interp(self):

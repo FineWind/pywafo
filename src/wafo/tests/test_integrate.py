@@ -5,7 +5,7 @@ Created on 23. okt. 2014
 '''
 import unittest
 import numpy as np
-from numpy import exp, Inf
+# from numpy import exp #, Inf
 from numpy.testing import assert_array_almost_equal
 from wafo.integrate import gaussq, quadgr, clencurt, romberg
 
@@ -37,19 +37,19 @@ class TestGaussq(unittest.TestCase):
     '''
 
     def test_gauss_legendre(self):
-        val, _err = gaussq(exp, 0, 1)
-        assert_array_almost_equal(val, exp(1)-exp(0))
+        val, _err = gaussq(np.exp, 0, 1)
+        assert_array_almost_equal(val, np.exp(1)-np.exp(0))
 
         a, b, y = [0, 0], [1, 1], np.array([1., 2.])
         val, _err = gaussq(lambda x, y: x * y, a, b, args=(y, ))
         assert_array_almost_equal(val, 0.5*y)
 
     def test_gauss_hermite(self):
-        val, _err = gaussq(lambda x: x, -Inf, Inf, wfun=2)
+        val, _err = gaussq(lambda x: x, -np.inf, np.inf, wfun=2)
         assert_array_almost_equal(val, 0)
 
     def test_gauss_laguerre(self):
-        val, _err = gaussq(lambda x: x, 0, Inf, wfun=3, alpha=1)
+        val, _err = gaussq(lambda x: x, 0, np.inf, wfun=3, alpha=1)
         assert_array_almost_equal(val, 2)
 
     def test_gauss_jacobi(self):

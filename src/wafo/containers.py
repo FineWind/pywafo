@@ -5,7 +5,7 @@ from wafo.misc import now
 import numpy as np
 from scipy import interpolate
 from scipy import integrate
-from scipy.integrate import cumtrapz
+from scipy.integrate import cumulative_trapezoid
 
 __all__ = ['PlotData', 'AxisLabels']
 
@@ -159,7 +159,7 @@ class PlotData(object):
     def to_cdf(self):
         if isinstance(self.args, (list, tuple)):  # Multidimensional data
             raise NotImplementedError('integration for ndim>1 not implemented')
-        cdf = np.hstack((0, cumtrapz(self.data, self.args)))
+        cdf = np.hstack((0, cumulative_trapezoid(self.data, self.args)))
         return PlotData(cdf, np.copy(self.args), xlab='x', ylab='F(x)')
 
     def _get_fi_xi(self, a, b):
@@ -505,17 +505,17 @@ def plotflag2plottype_1d(plotflag):
 def plotflag2transform_id(plotflag):
     transform_id = np.mod(plotflag // 10, 10)
     return ['f', '1-f',
-            'cumtrapz(f)', '1-cumtrapz(f)',
+            'cumulative_trapezoid(f)', '1-cumulative_trapezoid(f)',
             'log(f)', 'log(1-f)'
-            'log(cumtrapz(f))', 'log(cumtrapz(f))',
+            'log(cumulative_trapezoid(f))', 'log(cumulative_trapezoid(f))',
             'log10(f)'][transform_id]
 
 
 def transform_id2plotflag2(transform_id):
     return {'': 0, 'None': 0, 'f': 0, '1-f': 1,
-            'cumtrapz(f)': 2, '1-cumtrapz(f)': 3,
+            'cumulative_trapezoid(f)': 2, '1-cumulative_trapezoid(f)': 3,
             'log(f)': 4, 'log(1-f)': 5,
-            'log(cumtrapz(f))': 6, 'log(1-cumtrapz(f))': 7,
+            'log(cumulative_trapezoid(f))': 6, 'log(1-cumulative_trapezoid(f))': 7,
             '10log10(f)': 8}[transform_id] * 10
 
 
@@ -523,12 +523,12 @@ def transformdata_1d(x, f, plotflag):
     transform_id = np.mod(plotflag // 10, 10)
     transform = [lambda f, x: f,
                  lambda f, x: 1 - f,
-                 cumtrapz,
-                 lambda f, x: 1 - cumtrapz(f, x),
+                 cumulative_trapezoid,
+                 lambda f, x: 1 - cumulative_trapezoid(f, x),
                  lambda f, x: np.log(f),
                  lambda f, x: np.log1p(-f),
-                 lambda f, x: np.log(cumtrapz(f, x)),
-                 lambda f, x: np.log1p(-cumtrapz(f, x)),
+                 lambda f, x: np.log(cumulative_trapezoid(f, x)),
+                 lambda f, x: np.log1p(-cumulative_trapezoid(f, x)),
                  lambda f, x: 10 * np.log10(f)
                  ][transform_id]
     return transform(f, x)

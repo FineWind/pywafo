@@ -89,11 +89,20 @@ Installation
 ============
 
 WAFO contains some Fortran and C extensions that require a properly configured
-compiler and NumPy/f2py.  (sudo apt install gfortran)
+compiler and NumPy/f2py.
+On linux:
+    sudo apt install gfortran
+    sudo apt install llvm
+
+To install the project using poetry:
+    poetry env use python3.11
+    poetry install
 
 Create a binary wheel package and place it in the dist folder as follows::
 
-    python setup.py bdist_wheel -d dist
+    python -m build --wheel --outdir dist
+    or
+    poetry build
 
 And install the wheel package with::
 

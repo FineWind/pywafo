@@ -80,7 +80,7 @@ def edf(x, method=2):
     >>> F = ws.edf(R)
     >>> h = F.plot()
 
-     See also edf, pdfplot, cumtrapz
+     See also edf, pdfplot, cumulative_trapezoid
     """
     z = atleast_1d(x)
     z.sort()
@@ -119,7 +119,7 @@ def edfcnd(x, c=None, method=2):
     >>> cdf = ws.edf(R)
     >>> h = cdf.plot()
 
-     See also edf, pdfplot, cumtrapz
+     See also edf, pdfplot, cumulative_trapezoid
     """
     z = atleast_1d(x)
     if c is None:

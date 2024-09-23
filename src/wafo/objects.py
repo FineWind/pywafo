@@ -19,7 +19,7 @@ from numpy import inf, pi, sqrt, log, exp, cos, sin, arcsin
 from numpy.fft import fft  # @UnusedImport
 from numpy.random import randn
 from matplotlib.mlab import detrend_mean
-from scipy.integrate import trapz
+from scipy.integrate import trapezoid
 from scipy.signal import welch, lfilter
 from scipy.signal.windows import get_window  # @UnusedImport
 from scipy import special
@@ -453,19 +453,19 @@ class LevelCrossings(PlotData):
         integral = np.zeros(u.shape, dtype=float)
         for i in range(nu):
             y = factor1 * exp(-u[i] * u[i] * factor2)
-            integral[i] = trapz(y, x)
+            integral[i] = trapezoid(y, x)
         # end
         G = G - integral / (2 * pi)
         G = G / max(G)
 
         Z = ((u >= 0) * 2 - 1) * sqrt(-2 * log(G))
 
-        sumcr = trapz(self.data, self.args)
+        sumcr = trapezoid(self.data, self.args)
         lc = self.data / sumcr
         lc1 = self.args
-        mcr = trapz(lc1 * lc, lc1) if self.mean is None else self.mean
+        mcr = trapezoid(lc1 * lc, lc1) if self.mean is None else self.mean
         if self.sigma is None:
-            scr = sqrt(trapz(lc1 ** 2 * lc, lc1) - mcr ** 2)
+            scr = sqrt(trapezoid(lc1 ** 2 * lc, lc1) - mcr ** 2)
         else:
             scr = self.sigma
         lc2 = LevelCrossings(lc, lc1, mean=mcr, sigma=scr, intensity=True)
@@ -2627,7 +2627,7 @@ if __name__ == '__main__':
 #     # rf = ts.tocovdata(lag=150)
 #     S = ts.tospecdata(method='cov')
 #     S.plot()
-#     print(np.trapz(S.data, S.args))
+#     print(np.trapezoid(S.data, S.args))
 #     print(S.data.shape)
 #     print(S.data.max())
 #     plt.grid(True)

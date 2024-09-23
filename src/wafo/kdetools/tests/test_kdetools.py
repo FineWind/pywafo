@@ -129,7 +129,7 @@ class TestKde(unittest.TestCase):
                              0.021517998409663567, 0.009527401063843402])
 
         f = kde0.eval_grid_fast()
-        assert_allclose(np.trapz(f, kde0.args),  0.995001)
+        assert_allclose(np.trapezoid(f, kde0.args),  0.995001)
         assert_allclose(f, [0.011494108953097538, 0.0348546729842836,
                             0.08799292403553607, 0.18568717590587996,
                             0.32473136104523725, 0.46543163412700084,
@@ -155,14 +155,14 @@ class TestKde(unittest.TestCase):
         assert_allclose(f, [1.03982714,  0.45839018,  0.39514782,  0.32860602,
                             0.26433318, 0.20717946,  0.15907684,  0.1201074,
                             0.08941027,  0.06574882])
-        assert_allclose(np.trapz(f, x), 0.94787730659349068)
+        assert_allclose(np.trapezoid(f, x), 0.94787730659349068)
         f = kde.eval_grid_fast(x)
         assert_allclose(f, [1.0401892415290148, 0.45838973393693677,
                             0.39514689240671547, 0.32860531818532457,
                             0.2643330110605783, 0.20717975528556506,
                             0.15907696844388747, 0.12010770443337843,
                             0.08941129458260941, 0.06574899139165799])
-        assert_allclose(np.trapz(f, x), 0.9479438058416647)
+        assert_allclose(np.trapezoid(f, x), 0.9479438058416647)
 
     def test1_KDE1D(self):
         data, x = self.data, self.x
@@ -172,7 +172,7 @@ class TestKde(unittest.TestCase):
                             0.3906213, 0.26381501,  0.16407362,  0.08270612,
                             0.02991145, 0.00720821])
 
-        assert_allclose(np.trapz(f, x), 0.92576174424281876)
+        assert_allclose(np.trapezoid(f, x), 0.92576174424281876)
 
     def test2_KDE1D(self):
         # data, x = self.data, self.x
@@ -185,14 +185,14 @@ class TestKde(unittest.TestCase):
                             0.48345808, 0.48345808,  0.45293325,  0.33084399,
                             0.16555235,  0.0541248])
 
-        assert_allclose(np.trapz(f, x), 0.97323338046725172)
+        assert_allclose(np.trapezoid(f, x), 0.97323338046725172)
         f0 = kde(output='plot')
         self.assertIsInstance(f0, wo.PlotData)
-        assert_allclose(np.trapz(f0.data, f0.args), 0.9319800260106625)
+        assert_allclose(np.trapezoid(f0.data, f0.args), 0.9319800260106625)
 
         f0 = kde.eval_grid_fast(output='plot')
         self.assertIsInstance(f0, wo.PlotData)
-        assert_allclose(np.trapz(f0.data, f0.args), 0.9319799696210691)
+        assert_allclose(np.trapezoid(f0.data, f0.args), 0.9319799696210691)
 
 
     def test1a_KDE1D(self):
@@ -203,15 +203,15 @@ class TestKde(unittest.TestCase):
                             0.37198073, 0.21409279,  0.12738463,  0.07460326,
                             0.03956191,  0.01887164])
 
-        assert_allclose(np.trapz(f, x), 0.92938023659047952)
+        assert_allclose(np.trapezoid(f, x), 0.92938023659047952)
 
         f0 = kde(output='plot')
         self.assertIsInstance(f0, wo.PlotData)
-        assert_allclose(np.trapz(f0.data, f0.args), 0.9871189376720593)
+        assert_allclose(np.trapezoid(f0.data, f0.args), 0.9871189376720593)
 
         f0 = kde.eval_grid_fast(output='plot')
         self.assertIsInstance(f0, wo.PlotData)
-        assert_allclose(np.trapz(f0.data, f0.args), 0.9962507385131669)
+        assert_allclose(np.trapezoid(f0.data, f0.args), 0.9962507385131669)
 
     def test2a_KDE_1D_hs_5_alpha_5(self):
         # data, x = self.data, self.x
@@ -223,7 +223,7 @@ class TestKde(unittest.TestCase):
                             0.48345808, 0.48345808,  0.45293325,  0.33084399,
                             0.16555235,  0.0541248])
 
-        assert_allclose(np.trapz(f, x), 0.97323338046725172)
+        assert_allclose(np.trapezoid(f, x), 0.97323338046725172)
 
     def test_KDE2D(self):
         # N = 20

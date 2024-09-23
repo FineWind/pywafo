@@ -357,7 +357,7 @@ class LevinQuadrature(unittest.TestCase):
             plt.subplot(2, 1, 1)
             f2 = f(t, beta, z1)*np.exp(1j*R*g(t, beta, z1))
 
-            true_val2 = np.trapz(f2, t)
+            true_val2 = np.trapezoid(f2, t)
             plt.plot(t, f2.real, label='f.real')
             plt.plot(t, f2.imag, 'r', label='f.imag')
             plt.title('integral=%g+1j%g,\n'
@@ -371,7 +371,7 @@ class LevinQuadrature(unittest.TestCase):
             plt.hlines(0, a, b)
             plt.axis([a, b, -5, 5])
             plt.title('beta=%g' % beta)
-            print(np.trapz(f2, t))
+            print(np.trapezoid(f2, t))
             plt.legend(loc='best', framealpha=0.5)
             plt.show('hold')
         # true_val = 0.00253186684281+0.004314054498j

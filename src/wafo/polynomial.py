@@ -25,19 +25,19 @@ from wafo.plotbackend import plotbackend as plt
 import numpy as np
 from numpy import (newaxis, arange, pi)
 from scipy.fftpack import dct, idct as _idct
-from numpy.lib.polynomial import *  # @UnusedWildImport
+# from numpy.lib.polynomial import *  # @UnusedWildImport
 from numpy.polynomial.chebyshev import chebpts1
 try:
     from scipy.interpolate import pade  # pade has moved to scipy.interpolate in scipy 1.0.0
 except ImportError:
     from scipy.misc import pade  # @UnresolvedImport
-__all__ = np.lib.polynomial.__all__
-__all__ = __all__ + ['pade', 'padefit', 'polyreloc', 'polyrescl', 'polytrim',
-                     'poly2hstr', 'poly2str', 'polyshift', 'polyishift',
-                     'map_from_intervall', 'map_to_intervall', 'cheb2poly',
-                     'chebextr', 'chebroot', 'chebpoly', 'chebfit', 'chebval',
-                     'chebder', 'chebint', 'Cheb1d', 'dct', 'idct',
-                     'chebfitnd', 'chebvalnd']
+# __all__ = np.lib.polynomial.__all__
+# __all__ = __all__ + ['pade', 'padefit', 'polyreloc', 'polyrescl', 'polytrim',
+#                      'poly2hstr', 'poly2str', 'polyshift', 'polyishift',
+#                      'map_from_intervall', 'map_to_intervall', 'cheb2poly',
+#                      'chebextr', 'chebroot', 'chebpoly', 'chebfit', 'chebval',
+#                      'chebder', 'chebint', 'Cheb1d', 'dct', 'idct',
+#                      'chebfitnd', 'chebvalnd']
 
 
 def polyint(p, m=1, k=None):

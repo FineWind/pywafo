@@ -319,7 +319,7 @@ def gridcount(data, X, y=1):
     True
 
     >>> pdf = c/dx/N
-    >>> np.allclose(np.trapz(pdf, x), 1)
+    >>> np.allclose(np.trapezoid(pdf, x), 1)
     True
 
     import matplotlib.pyplot as plt
