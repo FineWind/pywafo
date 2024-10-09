@@ -18,7 +18,7 @@ try:
 except ImportError:
     print('fig import only supported on Windows')
 
-__version__ = "0.4.0.2"
+__version__ = "0.1.1.0"
 
 
 def test(*options):

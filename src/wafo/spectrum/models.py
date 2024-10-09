@@ -569,7 +569,8 @@ class Jonswap(ModelSpectrum):
 
     def _localspec(self, wn):
         Gf = self.peak_e_factor(wn)
-        return Gf * _gengamspec(wn, self.N, self.M)
+        # return Gf * _gengamspec(wn, self.N, self.M)
+        return ((Gf * _gengamspec(wn, self.N, self.M))[0])
 
     def _check_parametric_ag(self, N, M, gammai):
         parameters_ok = 3 <= N <= 50 or 2 <= M <= 9.5 and 1 <= gammai <= 20

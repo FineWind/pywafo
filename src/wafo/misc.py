@@ -231,6 +231,10 @@ def piecewise(condlist, funclist, xi=None, fillvalue=0.0, args=(), **kw):
     check_shapes(condlist, funclist)
 
     condlist = np.broadcast_arrays(*condlist)
+    # rCm: fix NP2.0: broadcast_arrays returns Tuple instead of List
+    if type(condlist) is tuple:
+        condlist = list(condlist)
+
     if len(condlist) == len(funclist) - 1:
         condlist.append(otherwise_condition(condlist))
 
@@ -2587,7 +2591,7 @@ def tranproc(x, f, x0, *xi):
     if not isinstance(xi, list):
         xi = [xi, ]
     num_derivatives = len(xi)  # num_derivatives = number of derivatives
-    nmax = np.ceil((xo.ptp()) * 10 ** (7. / max(num_derivatives, 1)))
+    nmax = np.ceil((np.ptp(xo)) * 10 ** (7. / max(num_derivatives, 1)))
     xo, fo = trangood(xo, fo, min_x=min(x0), max_x=max(x0), max_n=nmax)
 
     n = f.shape[0]

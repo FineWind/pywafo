@@ -728,7 +728,10 @@ class KDE(_KDE):
         # Find the binned kernel weights, c.
         c = gridcount(self.dataset, X, y=y)
         # Perform the convolution.
-        z = np.real(ifftn(fftn(c, s=kw.shape) * fftn(kw)))
+        # rCm: test
+        # z = np.real(ifftn(fftn(c, s=kw.shape) * fftn(kw)))
+        z = np.real(ifftn(fftn(c, s=kw.shape, axes=[0]) * fftn(kw)))
+
 
         ix = (slice(0, inc),) * d
         if r == 0:
@@ -740,6 +743,8 @@ class KDE(_KDE):
         grd = meshgrid(*args)
         shape0 = grd[0].shape
         d = len(grd)
+        # rCm: test
+        grd = [grd[0]]
         for i in range(d):
             grd[i] = grd[i].ravel()
         f = self.eval_points(np.vstack(grd), **kwds)

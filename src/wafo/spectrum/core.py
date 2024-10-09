@@ -1,5 +1,7 @@
 import warnings
 import os
+from dbm import error
+
 import numpy as np
 from numpy import (pi, inf, zeros, ones, where, nonzero,
                    flatnonzero, ceil, sqrt, exp, log, arctan2,
@@ -33,12 +35,12 @@ except ImportError:
 try:
     from wafo import c_library
 except ImportError:
-    warnings.warn('Compile the c_library.pyd again!')
+    warnings.warn('Compile the c_library.pyd again!', category=ImportWarning)
     c_library = None
 try:
     from wafo import cov2mod
 except ImportError:
-    warnings.warn('Compile the cov2mod.pyd again!')
+    warnings.warn('Compile the cov2mod.pyd again!', category=ImportWarning)
     cov2mod = None
 
 # Trick to avoid error due to circular import
@@ -3103,7 +3105,7 @@ class SpecData1D(PlotData):
                 w = 2. * pi * w
                 S = S / (2. * pi)
         # m0 = self.moment(nr=0)
-        m0 = simpson(S, w)
+        m0 = simpson(S, x=w)
         sa = sqrt(m0)
         # Nw = w.size
 
@@ -3783,11 +3785,12 @@ class SpecData1D(PlotData):
             m[k] = m[k] / (2 * pi) ** k
 
         # pi = np.pi
+        # rCm: simpson -> x is now keyword only
         ind = flatnonzero(f > 0)
-        m.append(simpson(S1[ind] / f[ind], f[ind]) * 2. * pi)  # = m_1
-        m_10 = simpson(S1[ind] ** 2 / f[ind], f[ind]) * \
+        m.append(simpson(S1[ind] / f[ind], x=f[ind]) * 2. * pi)  # = m_1
+        m_10 = simpson(S1[ind] ** 2 / f[ind], x=f[ind]) * \
             (2 * pi) ** 2 / T  # = COV(m_1,m0|T=t0)
-        m_11 = simpson(S1[ind] ** 2. / f[ind] ** 2, f[ind]) * \
+        m_11 = simpson(S1[ind] ** 2. / f[ind] ** 2, x=f[ind]) * \
             (2 * pi) ** 3 / T  # = COV(m_1,m_1|T=t0)
 
         # sqrt = np.sqrt
@@ -3807,7 +3810,7 @@ class SpecData1D(PlotData):
         Ss = 2. * pi * Hm0 / g / Tm02 ** 2  # Significant wave steepness
         Sp = 2. * pi * Hm0 / g / Tp ** 2  # Average wave steepness
         # groupiness factor
-        Ka = abs(simpson(S1 * exp(1J * f * Tm02), f)) / m[0]
+        Ka = abs(simpson(S1 * exp(1J * f * Tm02), x=f)) / m[0]
 
         # Quality control parameter
         # critical value is approximately 0.02 for surface displacement records
@@ -3815,12 +3818,12 @@ class SpecData1D(PlotData):
         # part of S.
         Rs = np.sum(
             interp(r_[0.0146, 0.0195, 0.0244] * 2 * pi, f, S1)) / 3. / maxS
-        Tp2 = 2 * pi * simpson(S1 ** 4, f) / simpson(f * S1 ** 4, f)
+        Tp2 = 2 * pi * simpson(S1 ** 4, x=f) / simpson(f * S1 ** 4, x=f)
 
         alpha1 = Tm24 / Tm02  # m(3)/sqrt(m(1)*m(5))
         eps2 = sqrt(Tm01 / Tm12 - 1.)  # sqrt(m(1)*m(3)/m(2)^2-1)
         eps4 = sqrt(1. - alpha1 ** 2)  # sqrt(1-m(3)^2/m(1)/m(5))
-        Qp = 2. / m[0] ** 2 * simpson(f * S1 ** 2, f)
+        Qp = 2. / m[0] ** 2 * simpson(f * S1 ** 2, x=f)
 
         ch = r_[Hm0, Tm01, Tm02, Tm24, Tm_10, Tp, Ss,
                 Sp, Ka, Rs, Tp2, alpha1, eps2, eps4, Qp]

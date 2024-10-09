@@ -75,7 +75,7 @@ class TestKernels(unittest.TestCase):
             #             print(name)
             #             print(pdf[0], pdf[-1])
             #             print(np.trapz(pdf, x) - 1)
-            assert_allclose(np.trapz(pdf, x), 1, 1e-2)
+            assert_allclose(np.trapezoid(pdf, x), 1, 1e-2)
         # self.assertTrue(False)
 
 

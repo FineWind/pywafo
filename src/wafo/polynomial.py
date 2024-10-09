@@ -27,6 +27,10 @@ from numpy import (newaxis, arange, pi)
 from scipy.fftpack import dct, idct as _idct
 # from numpy.lib.polynomial import *  # @UnusedWildImport
 from numpy.polynomial.chebyshev import chebpts1
+
+# rCm: test
+from numpy import poly1d
+
 try:
     from scipy.interpolate import pade  # pade has moved to scipy.interpolate in scipy 1.0.0
 except ImportError:
@@ -1352,8 +1356,8 @@ def chebfit_dct(f, n=(10, ), domain=None, args=()):
             xi = [map_to_interval(chebroot(ni), d[0], d[1])
                   for ni, d in _zip(n, domain)]
             Xi = np.meshgrid(*xi)
-            return f(*Xi) / np.product(n), len(n)
-        return f / np.product(f.shape), f.ndim
+            return f(*Xi) / np.prod(n), len(n)
+        return f / np.prod(f.shape), f.ndim
 
     ck, ndim = _init_ck(f, n, domain)
     for i in range(ndim):
@@ -2255,7 +2259,7 @@ def chebfitnd(xi, f, deg, rcond=None, full=False, w=None):
 
     degrees = np.asarray(deg, dtype=int)
     orders = degrees + 1
-    order = np.product(orders)
+    order = np.prod(orders)
 
     lhs, rhs, scl = _init(xi, z, w, degrees, order)
 

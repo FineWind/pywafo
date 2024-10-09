@@ -94,7 +94,7 @@ def savitzky_golay(y, window_size, order, deriv=0):
     order_range = range(order + 1)
     half_window = (window_size - 1) // 2
     # precompute coefficients
-    b = np.mat([[k ** i for i in order_range]
+    b = np.asmatrix([[k ** i for i in order_range]
                 for k in range(-half_window, half_window + 1)])
     m = np.linalg.pinv(b).A[deriv]
     # pad the signal at the extremes with
@@ -700,7 +700,7 @@ def pchip_slopes(x, y):
 
 
 def _parabola_slope(x, y, dx, dydx, *args):
-    yp = np.zeros(y.shape, np.float_)
+    yp = np.zeros(y.shape, np.float64)
     yp[1:-1] = (dydx[:-1] * dx[1:] + dydx[1:] * dx[:-1]) / (dx[1:] + dx[:-1])
     yp[0] = 2.0 * dydx[0] - yp[1]
     yp[-1] = 2.0 * dydx[-1] - yp[-2]
@@ -708,7 +708,7 @@ def _parabola_slope(x, y, dx, dydx, *args):
 
 
 def _secant_slope(x, y, dx, dydx, *args):
-    yp = np.zeros(y.shape, np.float_)
+    yp = np.zeros(y.shape, np.float64)
     # At the endpoints - use one-sided differences
     yp[0] = dydx[0]
     yp[-1] = dydx[-1]
@@ -718,7 +718,7 @@ def _secant_slope(x, y, dx, dydx, *args):
 
 
 def _catmull_rom_slope(x, y, dx, dydx, *args):
-    yp = np.zeros(y.shape, np.float_)
+    yp = np.zeros(y.shape, np.float64)
     # At the endpoints - use one-sided differences
     yp[0] = dydx[0]
     yp[-1] = dydx[-1]
@@ -764,8 +764,8 @@ def slopes(x, y, method='parabola', tension=0, monotone=False):
                 Cubic Hermite spline
 
     '''
-    x = np.asarray(x, np.float_)
-    y = np.asarray(y, np.float_)
+    x = np.asarray(x, np.float64)
+    y = np.asarray(y, np.float64)
 
     dx = x[1:] - x[:-1]
     # Compute the slopes of the secant lines between successive points
@@ -847,16 +847,16 @@ def stineman_interp(xi, x, y, yp=None):
     """
 
     # Cast key variables as float.
-    x = np.asarray(x, np.float_)
-    y = np.asarray(y, np.float_)
+    x = np.asarray(x, np.float64)
+    y = np.asarray(y, np.float64)
     _assert(x.shape == y.shape, 'Shapes of x and y must be equal!')
 
     if yp is None:
         yp = slopes(x, y)
     else:
-        yp = np.asarray(yp, np.float_)
+        yp = np.asarray(yp, np.float64)
 
-    xi = np.asarray(xi, np.float_)
+    xi = np.asarray(xi, np.float64)
     # yi = np.zeros(xi.shape, np.float_)
 
     # calculate linear slopes
@@ -993,9 +993,9 @@ class StinemanInterp(object):
     def __init__(self, x, y, yp=None, method='parabola', monotone=False):
         if yp is None:
             yp = slopes(x, y, method, monotone=monotone)
-        self.x = np.asarray(x, np.float_)
-        self.y = np.asarray(y, np.float_)
-        self.yp = np.asarray(yp, np.float_)
+        self.x = np.asarray(x, np.float64)
+        self.y = np.asarray(y, np.float64)
+        self.yp = np.asarray(yp, np.float64)
 
     def __call__(self, xi):
         return stineman_interp(xi, self.x, self.y, self.yp)

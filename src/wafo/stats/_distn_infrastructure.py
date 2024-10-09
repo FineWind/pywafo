@@ -424,10 +424,12 @@ def _fit(self, data, *args, **kwargs):
         if kwds:
             raise TypeError("Unknown arguments: {}.".format(kwds))
 
-        output = optimizer(func, x0, args=(ravel(data),), full_output=True,
+        # rCm: ravel -> np.ravel
+
+        output = optimizer(func, x0, args=(np.ravel(data),), full_output=True,
                            disp=0)
         if output[-1] != 0:
-            output = optimizer(func, output[0], args=(ravel(data),),
+            output = optimizer(func, output[0], args=(np.ravel(data),),
                                full_output=True)
 
         _warn_if_no_success(output[-1])

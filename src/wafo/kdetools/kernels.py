@@ -917,7 +917,9 @@ class Kernel(object):
             a = dct(c / len(A[dim]), norm=None)
 
             # now compute the optimal bandwidth^2 using the referenced method
-            I = np.asfarray(np.arange(1, inc)) ** 2
+            # I = np.asfarray(np.arange(1, inc)) ** 2
+            I = np.asarray(np.arange(1, inc), dtype=np.float64) ** 2
+
             a2 = (a[1:] / 2) ** 2
 
             x = np.linspace(0, 0.1, 150)
